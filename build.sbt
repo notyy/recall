@@ -93,8 +93,15 @@ persistLogLevel := Level.Warn
 // only show 10 lines of stack traces
 traceLevel := 10
 
+exportJars := true
+
 // only show stack traces up to the first sbt stack frame
 traceLevel := 0
 
 // add SWT to the unmanaged classpath
 //unmanagedJars in Compile += file("/usr/share/java/swt.jar")
+
+seq(oneJarSettings: _*)
+
+libraryDependencies += "commons-lang" % "commons-lang" % "2.6"
+
