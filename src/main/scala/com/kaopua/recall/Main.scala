@@ -1,4 +1,10 @@
+//import com.kaopu.recall.Interpreter._
 package com.kaopua.recall
+
+import Interpreter._
+
 object Main extends App {
-  Console.println("Hello World!")
+  welcome()
+  Memory.setMemoryMap(JsonStore.loadMemories())
+  askForCommand()
 }
