@@ -84,7 +84,7 @@ logLevel in compile := Level.Warn
 
 // only show warnings and errors on the screen for all tasks (the default is Info)
 //  individual tasks can then be more verbose using the previous setting
-logLevel := Level.Info
+logLevel := Level.Warn
 
 // only store messages at info and above (the default is Debug)
 //   this is the logging level for replaying logging with 'last'
