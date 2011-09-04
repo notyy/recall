@@ -1,6 +1,8 @@
 
 /target
 /project/target
+/project/plugins/target
+/project/plugins/project
 /project/boot
 /sbt.bat~
 *.swp
