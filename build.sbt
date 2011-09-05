@@ -9,7 +9,12 @@ organization := "com.kaopua"
 scalaVersion := "2.9.0-1"
 
 // add a test dependency on ScalaCheck
-libraryDependencies += "org.scala-tools.testing" %% "scalacheck" % "1.9" % "test"
+//libraryDependencies += "org.scala-tools.testing" %% "scalacheck" % "1.9" % "test"
+
+//add test dependency on scalatest
+libraryDependencies ++= Seq(
+  "org.scalatest" %% "scalatest" % "1.6.1" % "test"
+)
 
 //add lift-json dependecy
 libraryDependencies += "net.liftweb" % "lift-json_2.9.0-1" % "2.4-M3"
@@ -80,15 +85,15 @@ aggregate in clean := false
 
 // only show warnings and errors on the screen for compilations.
 //  this applies to both test:compile and compile and is Info by default
-logLevel in compile := Level.Warn
+logLevel in compile := Level.Info
 
 // only show warnings and errors on the screen for all tasks (the default is Info)
 //  individual tasks can then be more verbose using the previous setting
-logLevel := Level.Warn
+logLevel := Level.Info
 
 // only store messages at info and above (the default is Debug)
 //   this is the logging level for replaying logging with 'last'
-persistLogLevel := Level.Warn
+persistLogLevel := Level.Info
 
 // only show 10 lines of stack traces
 traceLevel := 10

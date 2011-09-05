@@ -38,7 +38,7 @@ input :h for list of comands
       case Mark(hint,content) => {
         val mm = Memory.mark(hint,content)
         JsonStore.storeMemories(mm)
-        mm
+        println(hint + "=" + content + " marked in my memory")
       }
       case Recall(hint) => {
         Memory.recall(hint) match {
