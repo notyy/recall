@@ -22,9 +22,6 @@ libraryDependencies += "net.liftweb" % "lift-json_2.9.0-1" % "2.4-M3"
 //add slf4j
 libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.6.2"
 
-//add slf4s
-libraryDependencies += "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.7"
-
 // reduce the maximum number of errors shown by the Scala compiler
 maxErrors := 20
 

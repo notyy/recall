@@ -1,10 +1,12 @@
 package com.kaopua.recall
-import com.weiglewilczek.slf4s._
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 case class Memory(hint:String, content:String, level:Int, lastUpdate:java.util.Date)
 
 object Memory {
-  val logger = Logger(getClass().getName())
+  val logger = LoggerFactory.getLogger(Memory.getClass())
   var memoryMap = Map[String,Memory]()
   def setMemoryMap(mm: Map[String,Memory]) = {
     memoryMap = mm

@@ -1,8 +1,10 @@
 package com.kaopua.recall
-import com.weiglewilczek.slf4s._
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 object Interpreter {
-  val logger = Logger("com.kaopua.recall.Interpreter")
+  val logger =  LoggerFactory.getLogger(Interpreter.getClass())
   def welcome() = println(
     """welcome to recall
 input xxx=some content to mark a memory

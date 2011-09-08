@@ -4,11 +4,12 @@ import net.liftweb.json._
 import net.liftweb.json.JsonDSL._
 import net.liftweb.json.Serialization.{read, write}
 import scala.io._
-import com.weiglewilczek.slf4s._
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 object JsonStore {
 
-  val logger = Logger("com.kaopua.recall.JsonStore")
+  val logger = LoggerFactory.getLogger(JsonStore.getClass())
   def srcDir = System.getProperty("user.home") + "/com.kaopua.recall"
   def srcFile = srcDir + "/memory.json"
 
