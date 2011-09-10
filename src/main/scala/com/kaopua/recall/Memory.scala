@@ -23,10 +23,24 @@ object Memory {
   def recall(hint:String): Option[Memory] = {
     logger.info("recalling for hint {} '", hint)
     transaction {
-      val memories = 
+      val rs = 
         from(MemoryDb.memories)(m => where(m.hint === hint) select(m))
-      if(memories.size >=1) Some(memories.head)
+      if(rs.size >=1) Some(rs.head)
       else None
+    }
+  }
+  
+  def fuzzyRecall(hint:String): List[Memory] = {
+    logger.info("fuzzy recalling {}",hint);
+    transaction {
+        from(MemoryDb.memories)(m => where(m.hint like "%" + hint +"%") select(m)).toList
+    }
+  }
+
+  def list(): List[String] = {
+    logger.info("listing hints")
+    transaction{
+      from(MemoryDb.memories)(m => select(m.hint)).toList
     }
   }
 }

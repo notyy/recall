@@ -12,7 +12,7 @@ object Main extends App {
         new H2Adapter))
   SessionFactory.newSession.bindToCurrentThread
 //  MemoryDb.drop
-  MemoryDb.create
+//  MemoryDb.create
   welcome()
   askForCommand()
 }

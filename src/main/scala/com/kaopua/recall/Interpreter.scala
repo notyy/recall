@@ -46,7 +46,16 @@ input :h for list of comands
       case Recall(hint) => {
         Memory.recall(hint) match {
           case Some(m:Memory) => logger.debug("recalled by hint {} is {} ",hint,m); println(m.content)
-          case None => println("memory not found for hint '" + hint +"'")
+          case None => {
+            logger.info("memory not found for hint {} , now using fuzzy recall",hint)
+            val rs = Memory.fuzzyRecall(hint)
+            if(rs.size>0) {
+              rs.foreach(m => print(m.hint + "\t"));println("");
+            }else{
+              logger.debug("fuzzy recall found nothing for hint {}",hint)
+              println("memory not found for " + hint)
+            }
+          }
         }
       }
     }

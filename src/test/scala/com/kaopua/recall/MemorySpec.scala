@@ -9,11 +9,10 @@ import org.scalatest.BeforeAndAfterAll
 import org.squeryl._
 import org.squeryl.adapters.H2Adapter
 
-
-class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll with BeforeAndAfterEach{
+class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll with BeforeAndAfterEach {
 
   val memoryObject = Memory
-  val logger = LoggerFactory.getLogger(Memory.getClass())
+  val logger = LoggerFactory.getLogger(this.getClass())
 
   override def beforeAll() {
     Class.forName("org.h2.Driver");
@@ -21,7 +20,7 @@ class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll wit
     SessionFactory.concreteFactory = Some(() =>
       Session.create(
         java.sql.DriverManager.getConnection("jdbc:h2:~/recall_test"),
-        new H2Adapter)) 
+        new H2Adapter))
     SessionFactory.newSession.bindToCurrentThread
   }
 
@@ -39,16 +38,24 @@ class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll wit
   }
 
   "MemoryObject" should "return 1 memory after mark which is persisted" in {
-    memoryObject.mark("testHint","testContent") should be ('persisted)
+    memoryObject.mark("testHint", "testContent") should be('persisted)
   }
 
   it should "recall the content it marked" in {
-    memoryObject.mark("testHint","testContent")
-    memoryObject.recall("testHint").get.content should be ("testContent")
+    memoryObject.mark("testHint", "testContent")
+    memoryObject.recall("testHint").get.content should be("testContent")
+  }
+
+  it should "find closing hints when using fuzzy search" in {
+    memoryObject.mark("testhintlong", "test");
+    memoryObject.mark("hintshort", "test");
+    memoryObject.mark("hint", "test");
+    memoryObject.fuzzyRecall("hin") should have size (3)
   }
 
   it should "be None when the memory haven't been marked" in {
-    memoryObject.mark("testHint","testContent")
-    memoryObject.recall("badHint") should be (None)
+    memoryObject.mark("testHint", "testContent")
+    memoryObject.recall("badHint") should be(None)
   }
+
 }
