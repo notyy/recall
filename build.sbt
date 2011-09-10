@@ -20,7 +20,13 @@ libraryDependencies ++= Seq(
 libraryDependencies += "net.liftweb" % "lift-json_2.9.0-1" % "2.4-M3"
 
 //add slf4j
-libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.6.2"
+libraryDependencies += "org.slf4j" % "slf4j-api" % "1.6.2"
+
+//add logback-core
+libraryDependencies += "ch.qos.logback" % "logback-core" % "0.9.29"
+
+//add logback-classic
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "0.9.29"
 
 // reduce the maximum number of errors shown by the Scala compiler
 maxErrors := 20
@@ -45,6 +51,9 @@ mainClass in (Compile, packageBin) := Some("com.kaopua.recall.Main")
 // set the main class for the main 'run' task
 // change Compile to Test to set it for 'test:run'
 mainClass in (Compile, run) := Some("com.kaopua.recall.Main")
+
+// set the main class for the main 'test:run' task
+mainClass in (Test, run) := Some("com.kaopua.recall.Main")
 
 // disable updating dynamic revisions (including -SNAPSHOT versions)
 offline := true
