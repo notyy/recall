@@ -1,7 +1,8 @@
 package com.kaopua.recall
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.squeryl.Session
 
 object Interpreter {
   val logger =  LoggerFactory.getLogger(Interpreter.getClass())
@@ -36,15 +37,15 @@ input :h for list of comands
     logger.info("response to command: " + command)
     command match {
       case Help()  => welcome()
-      case Quit()  => System.exit(0)
+      case Quit()  => Session.cleanupResources;Session.currentSession.close;System.exit(0)
       case Mark(hint,content) => {
         val mm = Memory.mark(hint,content)
-        JsonStore.storeMemories(mm)
+        logger.debug("memory saved {}",mm)
         println(hint + "=" + content + " marked in my memory")
       }
       case Recall(hint) => {
         Memory.recall(hint) match {
-          case Some(Memory(_, content, _, _)) => println(content)
+          case Some(m:Memory) => logger.debug("recalled by hint {} is {} ",hint,m); println(m.content)
           case None => println("memory not found for hint '" + hint +"'")
         }
       }

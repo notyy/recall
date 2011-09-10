@@ -1,4 +1,4 @@
-package com.kaopua.recall
+/* package com.kaopua.recall
 import java.io._
 import net.liftweb.json._
 import net.liftweb.json.JsonDSL._
@@ -44,3 +44,4 @@ object JsonStore {
     pw.close()
   }
 }
+*/

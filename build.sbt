@@ -16,8 +16,11 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "1.6.1" % "test"
 )
 
-//add lift-json dependecy
-libraryDependencies += "net.liftweb" % "lift-json_2.9.0-1" % "2.4-M3"
+//add h2database
+libraryDependencies += "com.h2database" % "h2" % "1.3.159"
+
+//add squeryl
+libraryDependencies += "org.squeryl" %% "squeryl" % "0.9.4"
 
 //add slf4j
 libraryDependencies += "org.slf4j" % "slf4j-api" % "1.6.2"

@@ -1,24 +1,45 @@
 package com.kaopua.recall
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.BeforeAndAfter
+import org.scalatest.BeforeAndAfterEach
+import org.scalatest.BeforeAndAfterAll
+import org.squeryl._
+import org.squeryl.adapters.H2Adapter
 
-class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfter {
+
+class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll with BeforeAndAfterEach{
 
   val memoryObject = Memory
+  val logger = LoggerFactory.getLogger(Memory.getClass())
 
-  before {
-    memoryObject.setMemoryMap(Map[String,Memory]())
+  override def beforeAll() {
+    Class.forName("org.h2.Driver");
+
+    SessionFactory.concreteFactory = Some(() =>
+      Session.create(
+        java.sql.DriverManager.getConnection("jdbc:h2:~/recall_test"),
+        new H2Adapter)) 
+    SessionFactory.newSession.bindToCurrentThread
   }
 
-  "memoryObject" should "initialzed as empty memory store" in {
-    memoryObject.memoryMap should be ('empty)
+  override def beforeEach() {
+    MemoryDb.create
   }
 
-  it should "has 1 memory after mark" in {
-    memoryObject.mark("testHint","testContent")
-    memoryObject.memoryMap should have size(1)
+  override def afterEach() {
+    MemoryDb.drop
+  }
+
+  override def afterAll() {
+    Session.cleanupResources
+    Session.currentSession.close
+  }
+
+  "MemoryObject" should "return 1 memory after mark which is persisted" in {
+    memoryObject.mark("testHint","testContent") should be ('persisted)
   }
 
   it should "recall the content it marked" in {
