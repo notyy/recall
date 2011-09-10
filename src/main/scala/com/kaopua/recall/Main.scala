@@ -8,11 +8,11 @@ object Main extends App {
   Class.forName("org.h2.Driver")
   SessionFactory.concreteFactory = Some(() =>
       Session.create(
-        java.sql.DriverManager.getConnection("jdbc:h2:~/recall"),
+        java.sql.DriverManager.getConnection("jdbc:h2:~/com.kaopua/recall"),
         new H2Adapter))
   SessionFactory.newSession.bindToCurrentThread
 //  MemoryDb.drop
-//  MemoryDb.create
+  MemoryDb.create
   welcome()
   askForCommand()
 }
