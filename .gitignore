@@ -6,3 +6,6 @@
 /project/boot
 /sbt.bat~
 *.swp
+
+/.history
+*.log
