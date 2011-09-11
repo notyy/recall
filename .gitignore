@@ -9,3 +9,7 @@
 
 /.history
 *.log
+/.settings
+/.scala_dependencies
+/.classpath
+/.project
