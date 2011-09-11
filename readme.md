@@ -1,6 +1,6 @@
 Everyone need a personal database  
 =========================================  
-Expert using command line  
+Experts using command line  
 ========================================  
 
 -you should have jdk1.6 installed  
