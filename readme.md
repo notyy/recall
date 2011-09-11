@@ -1,4 +1,5 @@
-#Everyone need a personal database Expert using command line 
+#Everyone need a personal database  
+#Expert using command line  
 
 -you should have jdk1.6 installed  
 -download sourcecode,run sbt one-jar in the folder in command line,after some times(if first time,may cause several minutes),entering target\scala-2.9.0.1 folder  
