@@ -12,7 +12,6 @@ input xxx=some content to mark a memory
 input xxx to recall it, 
 input :h for list of comands
       :t to start training your brain,
-      :s to sync your local memory with your cloud
       :q to quit""")
 
   def askForCommand():Unit = {
