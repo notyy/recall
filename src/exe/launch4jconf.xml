@@ -1,0 +1,22 @@
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>console</headerType>
+  <jar>E:\source\scala\recall\target\scala-2.9.0.1\recall_2.9.0-1-0.1.0-one-jar.jar</jar>
+  <outfile>E:\source\scala\recall\src\exe\recall.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir></chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <customProcName>false</customProcName>
+  <stayAlive>false</stayAlive>
+  <manifest></manifest>
+  <icon>E:\source\scala\recall\doc\notyy.ico</icon>
+  <jre>
+    <path>E:\dev\Java\jdk1.6.0_24\jre</path>
+    <minVersion>1.6.0_24</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+  </jre>
+</launch4jConfig>
