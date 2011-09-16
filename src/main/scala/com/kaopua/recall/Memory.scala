@@ -6,20 +6,49 @@ import org.squeryl.PrimitiveTypeMode._
 import org.squeryl._
 import MemoryDb.memories
 
-case class Memory(val id:Int, val hint:String, val content:String, val level:Int, 
-  val lastUpdate:java.util.Date) extends KeyedEntity[Int]{
+case class Memory(val id:Int, val hint:String, var content:String, var level:Int, 
+  var lastUpdate:java.util.Date) extends KeyedEntity[Int]{
+  
+  def append(moreContent:String):Memory = {
+    content += (Memory.CONTENT_SEPERATOR + moreContent)
+    return this
+  }
+  
+  /*
+   * index start from 1
+   */
+  def getSubContent(index:Int):Option[String] = {
+    val contents = content.split(Memory.CONTENT_SEPERATOR)
+    if(index > contents.length) None
+    else Some(contents(index-1))
+  }
 }
 
 object Memory {
   val logger = LoggerFactory.getLogger(Memory.getClass())
+  val CONTENT_SEPERATOR = ",;"
 
   def mark(hint:String, content:String): Memory = {
     logger.info("mark: hint={} ,content={}", hint, content)
-    transaction {
-      memories.insert(Memory(0, hint, content, 1, new java.util.Date()))
+    val m = recall(hint)
+    m match {
+      case Some(am:Memory) => am.content = content; update(am)
+      case None =>{
+        transaction {
+        	memories.insert(Memory(0, hint, content, 1, new java.util.Date()))
+        }
+      }
     }
   }
-
+  
+  def update(memory:Memory): Memory = {
+    logger.info("update memory {}",memory)
+    transaction {
+      memories.update(memory)
+    }
+    return memory
+  }
+  
   def recall(hint:String): Option[Memory] = {
     logger.info("recalling for hint {} '", hint)
     transaction {

@@ -15,7 +15,7 @@
   <icon>E:\source\scala\recall\doc\notyy.ico</icon>
   <jre>
     <path>E:\dev\Java\jdk1.6.0_24\jre</path>
-    <minVersion>1.6.0_24</minVersion>
+    <minVersion>1.6.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
   </jre>

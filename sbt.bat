@@ -1,2 +1,2 @@
 set SCRIPT_DIR=%~dp0
-java -Xmx512M -jar "%SCRIPT_DIR%sbt-launch.jar" %*
+java -XX:MaxPermSize=512m -Xmx512M -jar "%SCRIPT_DIR%sbt-launch.jar" %*

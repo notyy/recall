@@ -46,6 +46,20 @@ class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll wit
     memoryObject.recall("testHint").get.content should be("testContent")
   }
 
+  it should "overwrite content when marking memory whose hint already exists" in {
+    memoryObject.mark("testHint", "testContent")
+    memoryObject.recall("testHint").get.content should be("testContent")
+    memoryObject.mark("testHint", "testContent_change")
+    memoryObject.recall("testHint").get.content should be("testContent_change")
+  }
+
+  it should "update the content " in {
+    val m = memoryObject.mark("testHint", "testContent")
+    m.content += "_more"
+    memoryObject.update(m)
+    memoryObject.recall("testHint").get.content should be("testContent_more")
+  }
+
   it should "find closing hints when using fuzzy search" in {
     memoryObject.mark("testhintlong", "test");
     memoryObject.mark("hintshort", "test");
@@ -56,6 +70,18 @@ class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll wit
   it should "be None when the memory haven't been marked" in {
     memoryObject.mark("testHint", "testContent")
     memoryObject.recall("badHint") should be(None)
+  }
+
+  "Memory class" should "append more content to it's current content" in {
+    val m = Memory(0, "testHint", "testContent", 1, new java.util.Date())
+    m.append("more").content should be("testContent" + Memory.CONTENT_SEPERATOR + "more")
+  }
+
+  it should " get it's subcontent by index" in {
+    val m = Memory(0, "testHint", "testContent,;secondContent", 1, new java.util.Date())
+    m.getSubContent(1) should be(Some("testContent"))
+    m.getSubContent(2) should be(Some("secondContent"))
+    m.getSubContent(3) should be(None)
   }
 
 }
