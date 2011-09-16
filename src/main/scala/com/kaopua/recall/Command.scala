@@ -10,3 +10,5 @@ case class Quit() extends Command
 case class LastMemory() extends Command
 case class Append(content:String) extends Command
 case class Accumulate(content:String) extends Command
+case class SubMark(hint:String, content:String) extends Command
+case class Error(msg:String) extends Command
