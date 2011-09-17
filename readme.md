@@ -41,18 +41,6 @@ content:
 * you can use _1 to reference sub memory
 
 ```
-recall>_+123  
-recall>_  
-hint:abc  
-content:  
-  (1)456  
-  (2)xyz  
-  (3)123  
-```
-  
-* you can use _1 to reference sub memory
-
-```
 recall>_1
 456
 recall>_2
