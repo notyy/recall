@@ -13,37 +13,37 @@ advanced usage:
 ------------------
 * one hint can have multiple content, seperated by ",;"  
 eg:
-
-    <blockquote>
-        recall>abc=123,;xyz
-        recall>abc
-        hint:abc
-        content:
-          (1)456
-          (2)xyz
-    </blockquote>
-
+```
+recall>abc=123,;xyz
+recall>abc
+ hint:abc
+ content:
+      (1)456
+      (2)xyz
+ ```
+ 
 * you can use _ to reference last recalled memory  
 recall>_  after above example will reproduce same output  
 
 * you can use _+ to append more content to last memory
-    <blockquote>
-    recall>_+123  
-    recall>_  
-    hint:abc  
-    content:  
-      (1)456  
-      (2)xyz  
-      (3)123  
-    </blockquote>
-  
+```
+recall>_+123  
+recall>_  
+hint:abc  
+content:  
+  (1)456  
+  (2)xyz  
+  (3)123  
+```
 * you can use _1 to reference sub memory
+```
 recall>_1
 456
 recall>_2
 xyz
-
+```
 * you can use _1= to make a content as a "subhint",NOTE this usage won't change value of _
+```
 recall>_1=content11,;content12
 456=content11,;content12 marked in my memory
 recall>_2=content22,;content22
@@ -54,8 +54,9 @@ content:
   (1)456
   (2)xyz
   (3)123
-  
+```
 * you can use :r hint to get a recursive view
+```
 recall>:r abc
 hint:abc
 content:
@@ -66,7 +67,7 @@ content:
         content22
         content22
     123
-
+```
 *Yes! you get a Tree, although recall's command is extremely simple(very few commands), it do support complex data structure such as a tree  
 
 *how to install
