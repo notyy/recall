@@ -13,14 +13,14 @@ advanced usage:
 ------------------
 * one hint can have multiple content, seperated by ",;"  
 eg:
-    `  
-    recall>abc=123,;xyz  
-    recall>abc  
-    hint:abc  
-    content:  
-      (1)456  
-      (2)xyz  
-    `
+    <blockquote>
+        recall>abc=123,;xyz
+        recall>abc
+        hint:abc
+        content:
+          (1)456
+          (2)xyz
+    <blockquote>
 * one hint can have multiple content, seperated by ",;"  
 eg:  
 <blockquote>  
