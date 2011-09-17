@@ -27,6 +27,7 @@ recall>abc
 recall>_  after above example will reproduce same output  
 
 * you can use _+ to append more content to last memory
+
 ```
 recall>_+123  
 recall>_  
@@ -36,7 +37,9 @@ content:
   (2)xyz  
   (3)123  
 ```
+
 * you can use _1 to reference sub memory
+
 ```
 recall>_+123  
 recall>_  
@@ -45,15 +48,19 @@ content:
   (1)456  
   (2)xyz  
   (3)123  
-```  
+```
+  
 * you can use _1 to reference sub memory
+
 ```
 recall>_1
 456
 recall>_2
 xyz
 ```
+
 * you can use _1= to make a content as a "subhint",NOTE this usage won't change value of _
+
 ```
 recall>_1=content11,;content12
 456=content11,;content12 marked in my memory
@@ -66,7 +73,9 @@ content:
   (2)xyz
   (3)123
 ```
+
 * you can use :r hint to get a recursive view
+
 ```
 recall>:r abc
 hint:abc
@@ -79,6 +88,7 @@ content:
         content22
     123
 ```
+
 *Yes! you get a Tree, although recall's command is extremely simple(very few commands), it do support complex data structure such as a tree  
 
 *how to install
