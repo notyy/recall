@@ -37,6 +37,16 @@ content:
 ```
 * you can use _1 to reference sub memory
 ```
+recall>_+123  
+recall>_  
+hint:abc  
+content:  
+  (1)456  
+  (2)xyz  
+  (3)123  
+```  
+* you can use _1 to reference sub memory
+```
 recall>_1
 456
 recall>_2
@@ -72,7 +82,7 @@ content:
 
 *how to install
 -you should have jdk1.6 installed  
--download sourcecode,run sbt one-jar in the folder in command line,after some times(if first time,may cause several minutes),entering target\scala-2.9.0.1 folder  
+-download sourcecode,make sure you have sbt installed,run sbt one-jar in the folder in command line,after some times(if first time,may cause several minutes),entering target\scala-2.9.0.1 folder  
 -run "java -jar recall_2.9.0-1-0.1.0-one-jar.jar"   
 
 that's all, enjoy! 
