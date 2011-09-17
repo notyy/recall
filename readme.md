@@ -77,12 +77,12 @@ content:
     123
 ```
 
-*Yes! you get a Tree, although recall's command is extremely simple(very few commands), it do support complex data structure such as a tree  
+* Yes! you get a Tree, although recall's command is extremely simple(very few commands), it do support complex data structure such as a tree  
 
-*how to install
--you should have jdk1.6 installed  
--download sourcecode,make sure you have sbt installed,run sbt one-jar in the folder in command line,after some times(if first time,may cause several minutes),entering target\scala-2.9.0.1 folder  
--run "java -jar recall_2.9.0-1-0.1.0-one-jar.jar"   
+* how to install
+- you should have jdk1.6 installed  
+- download sourcecode,make sure you have sbt installed,run sbt one-jar in the folder in command line,after some times(if first time,may cause several minutes),entering target\scala-2.9.0.1 folder  
+- run "java -jar recall_2.9.0-1-0.1.0-one-jar.jar"   
 
 that's all, enjoy! 
 
