@@ -11,27 +11,29 @@ input ab  will give abc
 
 advanced usage:
 ------------------
-* one hint can have multiple content, seperated by ",;"
-eg: 
-<blockquote>
-recall>abc=123,;xyz
-recall>abc
-hint:abc
-content:
-  (1)456
-  (2)xyz
+* one hint can have multiple content, seperated by ",;"  
+eg:
+<blockquote>  
+recall>abc=123,;xyz  
+recall>abc  
+hint:abc  
+content:  
+  (1)456  
+  (2)xyz  
 </blockquote>
-* you can use _ to reference last recalled memory
-recall>_  after above example will reproduce same output
+* you can use _ to reference last recalled memory  
+recall>_  after above example will reproduce same output  
 
 * you can use _+ to append more content to last memory
-recall>_+123
-recall>_
-hint:abc
-content:
-  (1)456
-  (2)xyz
-  (3)123
+    <blockquote>
+    recall>_+123  
+    recall>_  
+    hint:abc  
+    content:  
+      (1)456  
+      (2)xyz  
+      (3)123  
+    </blockquote>
   
 * you can use _1 to reference sub memory
 recall>_1
