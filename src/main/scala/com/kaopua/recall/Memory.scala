@@ -41,6 +41,13 @@ object Memory {
     }
   }
   
+  def remove(hint:String) = {
+    recall(hint) match {
+      case Some(m:Memory) => memories.delete(m.id)
+      case None =>
+    }
+  }
+  
   def update(memory:Memory): Memory = {
     logger.info("update memory {}",memory)
     transaction {

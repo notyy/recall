@@ -1,6 +1,7 @@
 package com.kaopua.recall
 abstract class Command
 case class Mark(hint:String, content:String) extends Command
+case class Remove(hint:String) extends Command
 case class Recall(hint:String,mode:Int) extends Command
 case class SubContent(memory:Memory, index:Int) extends Command
 case class sync() extends Command

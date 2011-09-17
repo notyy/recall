@@ -11,6 +11,7 @@ class InterpreterSpec extends FlatSpec with ShouldMatchers {
     Interpreter.explain(":h") should be(Help())
     Interpreter.explain(":q") should be(Quit())
     Interpreter.explain("testHint=testContent") should be(Mark("testHint", "testContent"))
+    Interpreter.explain("testHint=None") should be(Remove("testHint"))
     Interpreter.explain("testHint") should be(Recall("testHint", Interpreter.RECALL_MODE_PLAIN))
     Interpreter.explain("_") should be(LastMemory())
     //    Interpreter.explain("+testContent") should be(Append("testContent"))

@@ -46,6 +46,13 @@ class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll wit
     memoryObject.recall("testHint").get.content should be("testContent")
   }
 
+  it should "remove a memory indexed by hint" in {
+    memoryObject.mark("testHint", "testContent")
+    memoryObject.recall("testHint").get.content should be("testContent")
+    memoryObject.remove("testHint")
+    memoryObject.recall("testHint") should be(None)
+  }
+
   it should "overwrite content when marking memory whose hint already exists" in {
     memoryObject.mark("testHint", "testContent")
     memoryObject.recall("testHint").get.content should be("testContent")

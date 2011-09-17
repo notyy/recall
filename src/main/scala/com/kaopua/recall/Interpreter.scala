@@ -45,7 +45,9 @@ input :h for list of comands
       case recursiveRecallPattern(hint) => Recall(hint,RECALL_MODE_RECURSIVE)
       case _    => if(userInput.contains("=")) { 
                       val markArray = userInput.split("=")
-                      Mark(markArray(0),markArray(1))
+                      val content = markArray(1)
+                      if(content == "None") Remove(markArray(0))
+                      else Mark(markArray(0),markArray(1))
                    } else Recall(userInput,RECALL_MODE_PLAIN)
       }
   }
@@ -61,6 +63,7 @@ input :h for list of comands
         lastMemory = mm
         println(hint + "=" + content + " marked in my memory")
       }
+      case Remove(hint) => Memory.remove(hint);println(hint + " removed")
       case LastMemory() => if(lastMemory!=null) print(strContent(lastMemory)) else println("no last memory found")
       case SubContent(memory,index) => {
         println(memory.getSubContent(index).getOrElse("None"))
@@ -75,6 +78,7 @@ input :h for list of comands
         if(lastMemory != null) {
           lastMemory.append(moreContent)
           Memory.update(lastMemory)
+          println(moreContent + " appended")
         }
       }
       case Recall(hint,mode) => {
