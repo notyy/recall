@@ -50,7 +50,7 @@ object Memory {
   }
   
   def recall(hint:String): Option[Memory] = {
-    logger.info("recalling for hint {} '", hint)
+    logger.info("recalling for hint {}", hint)
     transaction {
       val rs = 
         from(MemoryDb.memories)(m => where(m.hint === hint) select(m))

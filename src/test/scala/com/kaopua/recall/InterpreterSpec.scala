@@ -11,7 +11,7 @@ class InterpreterSpec extends FlatSpec with ShouldMatchers {
     Interpreter.explain(":h") should be(Help())
     Interpreter.explain(":q") should be(Quit())
     Interpreter.explain("testHint=testContent") should be(Mark("testHint", "testContent"))
-    Interpreter.explain("testHint") should be(Recall("testHint"))
+    Interpreter.explain("testHint") should be(Recall("testHint", Interpreter.RECALL_MODE_PLAIN))
     Interpreter.explain("_") should be(LastMemory())
     //    Interpreter.explain("+testContent") should be(Append("testContent"))
     //following tests need to be run sequentially
@@ -20,11 +20,14 @@ class InterpreterSpec extends FlatSpec with ShouldMatchers {
     Interpreter.explain("_1") should be(SubContent(Interpreter.lastMemory, 1))
     Interpreter.explain("_1=subContent") should be(SubMark("testContent", "subContent"))
     Interpreter.explain("_2=subcontent2") should be(Error("subcontent not found by index 2"))
+    Interpreter.explain(":r testHint") should be(Recall("testHint", Interpreter.RECALL_MODE_RECURSIVE))
   }
 
   it should "show content in multilines with index in start of each line" in {
     val memory = Memory(0, "testHint", "testContent,;testContent2", 1, new java.util.Date())
     Interpreter.strContent(memory) should be("hint:testHint\n" + "content:\n" + "  (1)testContent\n  (2)testContent2\n")
   }
+
+  it should "show content recursively is using :r command" is (pending)
 }
 

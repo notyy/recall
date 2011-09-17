@@ -10,6 +10,8 @@ import org.squeryl.Session
 object Interpreter {
   val logger =  LoggerFactory.getLogger(Interpreter.getClass())
   var lastMemory:Memory = null
+  val RECALL_MODE_PLAIN = 1
+  val RECALL_MODE_RECURSIVE = 2
   def welcome() = println(
     """welcome to recall
 input xxx=some content to mark a memory
@@ -27,6 +29,7 @@ input :h for list of comands
     logger.info("explaining userInput: " + userInput)
     val SubContentPattern = """_(\d+)""".r
     val SubMarkPattern = """_(\d+)=(.*)""".r
+    val recursiveRecallPattern = """:r (.*)""".r
     userInput match {
       case ":h" => Help()
       case ":q" => Quit()
@@ -39,10 +42,11 @@ input :h for list of comands
           case None => Error("subcontent not found by index " + i)
         }
       }
+      case recursiveRecallPattern(hint) => Recall(hint,RECALL_MODE_RECURSIVE)
       case _    => if(userInput.contains("=")) { 
                       val markArray = userInput.split("=")
                       Mark(markArray(0),markArray(1))
-                   } else Recall(userInput)
+                   } else Recall(userInput,RECALL_MODE_PLAIN)
       }
   }
 
@@ -73,12 +77,23 @@ input :h for list of comands
           Memory.update(lastMemory)
         }
       }
-      case Recall(hint) => {
+      case Recall(hint,mode) => {
         Memory.recall(hint) match {
           case Some(m:Memory) => {
             logger.debug("recalled by hint {} is {} ",hint,m); 
             lastMemory = m; 
-            print(strContent(m))
+            if(mode == RECALL_MODE_PLAIN) print(strContent(m))
+            else{
+              val contents = m.content.split(Memory.CONTENT_SEPERATOR)
+              var sb = new StringBuilder()
+              //firstly, print top level information
+              sb.append("hint:"+m.hint+"\n")
+              sb.append("content:\n")
+              for(content <- contents) {
+                sb.append(strRecursive(content,1))
+              }
+              print(sb.mkString)
+            }
           }
           case None => {
             logger.info("memory not found for hint {} , now using fuzzy recall",hint)
@@ -93,6 +108,21 @@ input :h for list of comands
         }
       }
     }
+  }
+  
+  def strRecursive(hint:String, level:Int): String = {
+    var sb = new StringBuilder()
+    sb.append("    " * level + hint +"\n")
+    Memory.recall(hint) match {
+      case Some(m:Memory) => {
+        val contents = m.content.split(Memory.CONTENT_SEPERATOR)
+        for(content <- contents) {
+          sb.append(strRecursive(content,level+1))
+        }
+      }
+      case None => logger.debug("no more record for hint {}", hint)
+    }
+    sb.mkString
   }
   
   def strContent(memory:Memory):String = {
