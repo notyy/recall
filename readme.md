@@ -13,6 +13,7 @@ advanced usage:
 ------------------
 * one hint can have multiple content, seperated by ",;"  
 eg:
+
     <blockquote>
         recall>abc=123,;xyz
         recall>abc
@@ -20,7 +21,8 @@ eg:
         content:
           (1)456
           (2)xyz
-    <blockquote>
+    </blockquote>
+
 * you can use _ to reference last recalled memory  
 recall>_  after above example will reproduce same output  
 
