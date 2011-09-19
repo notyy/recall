@@ -83,6 +83,7 @@ content:
 - you should have jdk1.6 installed  
 - download sourcecode,make sure you have sbt installed,run sbt one-jar in the folder in command line,after some times(if first time,may cause several minutes),entering target\scala-2.9.0.1 folder  
 - run "java -jar recall_2.9.0-1-0.1.0-one-jar.jar"   
+- note this version is in experimental stage, not for serious usage!
 
 that's all, enjoy! 
 
