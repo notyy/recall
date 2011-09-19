@@ -6,10 +6,13 @@ import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.BeforeAndAfterAll
+import org.scalatest.prop.Checkers
+import org.scalacheck.Arbitrary._
+import org.scalacheck.Prop._
 import org.squeryl._
 import org.squeryl.adapters.H2Adapter
 
-class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll with BeforeAndAfterEach {
+class MemorySpec extends FlatSpec with ShouldMatchers with Checkers with BeforeAndAfterAll with BeforeAndAfterEach {
 
   val memoryObject = Memory
   val logger = LoggerFactory.getLogger(this.getClass())
@@ -44,6 +47,11 @@ class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll wit
   it should "recall the content it marked" in {
     memoryObject.mark("testHint", "testContent")
     memoryObject.recall("testHint").get.content should be("testContent")
+    //add scalacheck test
+    /* check((hint: String, content: String) => (hint.length() > 0 && content.length() > 0) ==> {
+      memoryObject.mark(hint, content)
+      memoryObject.recall(hint).get.content == content
+    }) */
   }
 
   it should "remove a memory indexed by hint" in {
@@ -72,6 +80,15 @@ class MemorySpec extends FlatSpec with ShouldMatchers with BeforeAndAfterAll wit
     memoryObject.mark("hintshort", "test");
     memoryObject.mark("hint", "test");
     memoryObject.fuzzyRecall("hin") should have size (3)
+  }
+
+  it should "find sub hints by parent hint" in {
+    memoryObject.mark("notyy.name", "notyy")
+    memoryObject.mark("notyy.tel=", "80000")
+    memoryObject.mark("notyy.address,city", "shanghai")
+    memoryObject.mark("Notnotyy.wife", "connie")
+    val mlist = memoryObject.findSub("notyy.")
+    mlist should have size (3)
   }
 
   it should "be None when the memory haven't been marked" in {

@@ -6,21 +6,21 @@ import org.squeryl.PrimitiveTypeMode._
 import org.squeryl._
 import MemoryDb.memories
 
-case class Memory(val id:Int, val hint:String, var content:String, var level:Int, 
-  var lastUpdate:java.util.Date) extends KeyedEntity[Int]{
-  
-  def append(moreContent:String):Memory = {
+case class Memory(val id: Int, val hint: String, var content: String, var level: Int,
+  var lastUpdate: java.util.Date) extends KeyedEntity[Int] {
+
+  def append(moreContent: String): Memory = {
     content += (Memory.CONTENT_SEPERATOR + moreContent)
     return this
   }
-  
+
   /*
    * index start from 1
    */
-  def getSubContent(index:Int):Option[String] = {
+  def getSubContent(index: Int): Option[String] = {
     val contents = content.split(Memory.CONTENT_SEPERATOR)
-    if(index > contents.length) None
-    else Some(contents(index-1))
+    if (index > contents.length) None
+    else Some(contents(index - 1))
   }
 }
 
@@ -28,54 +28,61 @@ object Memory {
   val logger = LoggerFactory.getLogger(Memory.getClass())
   val CONTENT_SEPERATOR = ",;"
 
-  def mark(hint:String, content:String): Memory = {
+  def mark(hint: String, content: String): Memory = {
     logger.info("mark: hint={} ,content={}", hint, content)
     val m = recall(hint)
     m match {
-      case Some(am:Memory) => am.content = content; update(am)
-      case None =>{
+      case Some(am: Memory) => am.content = content; update(am)
+      case None => {
         transaction {
-        	memories.insert(Memory(0, hint, content, 1, new java.util.Date()))
+          memories.insert(Memory(0, hint, content, 1, new java.util.Date()))
         }
       }
     }
   }
-  
-  def remove(hint:String) = {
+
+  def remove(hint: String) = {
     recall(hint) match {
-      case Some(m:Memory) => memories.delete(m.id)
+      case Some(m: Memory) => memories.delete(m.id)
       case None =>
     }
   }
-  
-  def update(memory:Memory): Memory = {
-    logger.info("update memory {}",memory)
+
+  def update(memory: Memory): Memory = {
+    logger.info("update memory {}", memory)
     transaction {
       memories.update(memory)
     }
     return memory
   }
-  
-  def recall(hint:String): Option[Memory] = {
+
+  def recall(hint: String): Option[Memory] = {
     logger.info("recalling for hint {}", hint)
     transaction {
-      val rs = 
-        from(MemoryDb.memories)(m => where(m.hint === hint) select(m))
-      if(rs.size >=1) Some(rs.head)
+      val rs =
+        from(MemoryDb.memories)(m => where(m.hint === hint) select (m))
+      if (rs.size >= 1) Some(rs.head)
       else None
     }
   }
-  
-  def fuzzyRecall(hint:String): List[Memory] = {
-    logger.info("fuzzy recalling {}",hint);
+
+  def fuzzyRecall(hint: String): List[Memory] = {
+    logger.info("fuzzy recalling {}", hint);
     transaction {
-        from(MemoryDb.memories)(m => where(m.hint like "%" + hint +"%") select(m)).toList
+      from(MemoryDb.memories)(m => where(m.hint like "%" + hint + "%") select (m)).toList
+    }
+  }
+
+  def findSub(hint: String): List[Memory] = {
+    logger.info("find sub memory for hint {}", hint);
+    transaction {
+      from(MemoryDb.memories)(m => where(m.hint like hint + "%") select (m)).toList
     }
   }
 
   def list(): List[String] = {
     logger.info("listing hints")
-    transaction{
+    transaction {
       from(MemoryDb.memories)(m => select(m.hint)).toList
     }
   }

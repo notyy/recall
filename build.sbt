@@ -9,7 +9,7 @@ organization := "com.kaopua"
 scalaVersion := "2.9.0-1"
 
 // add a test dependency on ScalaCheck
-//libraryDependencies += "org.scala-tools.testing" %% "scalacheck" % "1.9" % "test"
+libraryDependencies += "org.scala-tools.testing" %% "scalacheck" % "1.9" % "test"
 
 //add test dependency on scalatest
 libraryDependencies ++= Seq(
