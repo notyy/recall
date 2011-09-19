@@ -85,5 +85,7 @@ content:
 - run "java -jar recall_2.9.0-1-0.1.0-one-jar.jar"   
 - note this version is in experimental stage, not for serious usage!
 
+todo:  better syntax 
+
 that's all, enjoy! 
 
