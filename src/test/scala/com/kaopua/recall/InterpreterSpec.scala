@@ -22,9 +22,6 @@ class InterpreterSpec extends FlatSpec with ShouldMatchers {
     //following tests need to be run sequentially
     Interpreter.explain("_+testContent") should be(Accumulate("testContent"))
     Interpreter.lastMemory = Memory(0, "testHint", "testContent", 1, new java.util.Date())
-    Interpreter.explain("_1") should be(SubContent(Interpreter.lastMemory, 1))
-    Interpreter.explain("_1=subContent") should be(SubMark("testContent", "subContent"))
-    Interpreter.explain("_2=subcontent2") should be(Error("subcontent not found by index 2"))
     Interpreter.explain("testHint.*") should be(Recall("testHint", Interpreter.RECALL_MODE_RECURSIVE))
   }
 
