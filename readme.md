@@ -1,6 +1,8 @@
 Extremely simple personal database  
 =========================================
   
+recall is opensource project under Apache license2.0, see LICENSE file for detail
+
 basic usage:
 ------------------
 1. input abc=123 will record it to database   , in this case, I call abc as a hint, and 123 is the content, I name the whole thing as a Memory
