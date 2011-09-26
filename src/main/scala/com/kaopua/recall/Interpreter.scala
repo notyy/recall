@@ -9,119 +9,42 @@ import org.squeryl.Session
  */
 object Interpreter {
   val logger = LoggerFactory.getLogger(Interpreter.getClass())
-
-  var lastMemory: Memory = null
+  val QUIT = ":QUIT"
   val RECALL_MODE_PLAIN = 1
   val RECALL_MODE_RECURSIVE = 2
-  var indents = List[String]()
-  var indent = ""
-  var markStack = List[Mark]()
 
-  def welcome() = println(
-    """welcome to recall
-input xxx=some content to mark a memory
-input xxx to recall it, 
-input :h for list of comands
-      :q to quit""")
-
-  def askForCommand(): Unit = {
-    print("recall>" + indent)
-    response(explain(readLine()))
-    askForCommand()
+  def process(request: String): String = {
+    return ""
   }
 
-  def explain(userInput: String): Command = {
-    logger.info("explaining userInput: " + userInput)
-    val MarkPattern = """(.*)=(.*)""".r
-    userInput match {
-      case ":h" => Help()
-      case ":q" => Quit()
-      case "_" => LastMemory()
-      case s if s.startsWith("_+") => Accumulate(s.stripPrefix("_+"))
-      case "" => {
-        if (indents.size > 1) {
-          indents = indents.tail
-          Continue(" " * indents.head.length())
-        } else {
-          EndMark(markStack)
-        }
-      }
-      case MarkPattern(hint, "None") => Remove(hint)
-      case MarkPattern(hint, content) => {
-        logger.debug("processing hint {},content {}", hint, content)
-        if (hint.contains(".")) {
-          logger.debug("hint contains '.'")
-          var indent = hint.substring(0, hint.lastIndexOf("."))
-          val newMark = indents match {
-            case head :: _ =>
-              indent = head + "." + indent
-              Mark(head + "." + hint, content)
-            case _ => Mark(hint, content)
-          }
-          markStack = newMark :: markStack
-          indents = indent :: indents
-          Continue(" " * indent.length())
-        } else if (indents.size > 0) {
-          markStack = Mark(indents.head + "." + hint, content) :: markStack
-          Continue(" " * indents.head.length())
-        } else Mark(hint, content)
-      }
-      case _ => { //should be some kind of recall
-        if (userInput.endsWith(".*")) Recall(userInput.substring(0, userInput.indexOf(".*")), RECALL_MODE_RECURSIVE)
-        else Recall(userInput, RECALL_MODE_PLAIN)
-      }
-    }
-  }
-
-  def response(command: Command): Unit = {
+  def response(command: Command): String = {
     logger.info("response to command: " + command)
     command match {
-      case Help() => welcome()
-      case Quit() => Session.cleanupResources; Session.currentSession.close; System.exit(0)
+      case Quit() => Session.cleanupResources; Session.currentSession.close; QUIT
       case Mark(hint, content) => {
         val mm = Memory.mark(hint, content)
         logger.debug("memory saved {}", mm)
-        lastMemory = mm
-        println(hint + "=" + content + " marked in my memory")
+        hint + "=" + content + " marked in my memory\n"
       }
-      case Continue(indent) => this.indent = indent + "."
-      case EndMark(marks) => marks.foreach(mark => response(mark)); indents = List[String](); markStack = List[Mark](); this.indent = ""
-      case Remove(hint) => Memory.remove(hint); println(hint + " removed")
-      case LastMemory() => if (lastMemory != null) print(strContent(lastMemory)) else println("no last memory found")
-      case SubContent(memory, index) => {
-        println(memory.getSubContent(index).getOrElse("None"))
-      }
-      case SubMark(hint, content) => {
-        //doesn't change last memory constant
-        val mm = Memory.mark(hint, content)
-        logger.debug("memory saved {}", mm)
-        println(hint + "=" + content + " marked in my memory")
-      }
-      case Accumulate(moreContent: String) => {
-        if (lastMemory != null) {
-          lastMemory.append(moreContent)
-          Memory.update(lastMemory)
-          println(moreContent + " appended")
-        }
-      }
+      case EndMark(marks) => ("" /: marks)(_ + response(_))
+      case Remove(hint) => Memory.remove(hint); hint + " removed\n"
       case Recall(hint, RECALL_MODE_RECURSIVE) => {
-        print(strRecursive(hint))
+        strRecursive(hint)
       }
       case Recall(hint, RECALL_MODE_PLAIN) => {
         Memory.recall(hint) match {
           case Some(m: Memory) => {
             logger.debug("recalled by hint {} is {} ", hint, m);
-            lastMemory = m;
-            print(strContent(m))
+            strContent(m)
           }
           case None => {
             logger.info("memory not found for hint {} , now using fuzzy recall", hint)
             val rs = Memory.fuzzyRecall(hint)
             if (rs.size > 0) {
-              rs.foreach(m => print(m.hint + "\t")); println("");
+              ("" /: rs)(_ + _.hint + "\t") + "\n";
             } else {
               logger.debug("fuzzy recall found nothing for hint {}", hint)
-              println("memory not found for " + hint)
+              "memory not found for " + hint + "\n"
             }
           }
         }
