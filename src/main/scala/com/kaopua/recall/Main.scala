@@ -15,7 +15,7 @@ object Main extends App {
     Session.create(
       java.sql.DriverManager.getConnection("jdbc:h2:~/com.kaopua/recall"),
       new H2Adapter))
-  SessionFactory.newSession.bindToCurrentThread
+  //  SessionFactory.newSession.bindToCurrentThread
   //the path is decided by h2 database, these lines here are just to check where the db files 
   //have already been created
   logger.info("checking whether db file is alread created?")

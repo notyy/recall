@@ -96,16 +96,4 @@ class MemorySpec extends FlatSpec with ShouldMatchers with Checkers with BeforeA
     memoryObject.recall("badHint") should be(None)
   }
 
-  "Memory class" should "append more content to it's current content" in {
-    val m = Memory(0, "testHint", "testContent", 1, new java.util.Date())
-    m.append("more").content should be("testContent" + Memory.CONTENT_SEPERATOR + "more")
-  }
-
-  it should " get it's subcontent by index" in {
-    val m = Memory(0, "testHint", "testContent,;secondContent", 1, new java.util.Date())
-    m.getSubContent(1) should be(Some("testContent"))
-    m.getSubContent(2) should be(Some("secondContent"))
-    m.getSubContent(3) should be(None)
-  }
-
 }

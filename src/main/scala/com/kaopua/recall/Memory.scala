@@ -1,32 +1,30 @@
 package com.kaopua.recall
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.squeryl.PrimitiveTypeMode._
 import org.squeryl._
 import MemoryDb.memories
+import org.squeryl.adapters.H2Adapter
 
 case class Memory(val id: Int, val hint: String, var content: String, var level: Int,
   var lastUpdate: java.util.Date) extends KeyedEntity[Int] {
 
-  def append(moreContent: String): Memory = {
-    content += (Memory.CONTENT_SEPERATOR + moreContent)
-    return this
-  }
-
-  /*
-   * index start from 1
-   */
-  def getSubContent(index: Int): Option[String] = {
-    val contents = content.split(Memory.CONTENT_SEPERATOR)
-    if (index > contents.length) None
-    else Some(contents(index - 1))
-  }
 }
 
 object Memory {
   val logger = LoggerFactory.getLogger(Memory.getClass())
-  val CONTENT_SEPERATOR = ",;"
+
+  //  {
+  //    logger.info("init session in Memory")
+  //    Class.forName("org.h2.Driver");
+  //
+  //    SessionFactory.concreteFactory = Some(() =>
+  //      Session.create(
+  //        java.sql.DriverManager.getConnection("jdbc:h2:~/recall_test"),
+  //        new H2Adapter))
+  //    //    SessionFactory.newSession.bindToCurrentThread
+  //  }
 
   def mark(hint: String, content: String): Memory = {
     logger.info("mark: hint={} ,content={}", hint, content)

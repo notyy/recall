@@ -16,9 +16,9 @@
     </encoder>
   </appender>
 
-  <logger name="com.kaopua.recall" level="WARN" />
+  <logger name="com.kaopua.recall" level="INFO" />
 
-  <root level="WARN">
+  <root level="INFO">
           <appender-ref ref="STDOUT" />
           <appender-ref ref="FILE" />
   </root>
